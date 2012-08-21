@@ -1,0 +1,48 @@
+<atlassian-plugin name='User Date Metadata Framework RPC Plugin' key='com.steepdevelopment.confluence.udmf'>
+    <plugin-info>
+		 <description>Allows page user/date metadata to be modified</description>
+        <vendor name="Steep Development LLC" url="http://www.steepdevelopment.com"/>
+        <version>0.2</version>
+    </plugin-info>
+	  <component name="UDMF Delegator"
+					 key="udmfDelegatorTarget"
+					 class="com.steepdevelopment.confluence.udmf.UdmfDelegator"/>
+
+		<spring name="Spring Transaction Container" key="udmfDelegator" class="org.springframework.transaction.interceptor.TransactionProxyFactoryBean">
+			<property name="transactionManager">
+				<ref local="transactionManager"/>
+			</property>
+			<property name="target">
+				<ref local="udmfDelegatorTarget"/>
+			</property>
+			<property name="transactionAttributes">
+				<props>
+					<prop key="*">PROPAGATION_REQUIRED</prop>
+				</props>
+			</property>
+			<property name="proxyInterfaces">
+				<value>com.steepdevelopment.confluence.udmf.UdmfInterface</value>
+			</property>
+			<property name="postInterceptors">
+				<list>
+					<ref local="profilingInterceptor"/>
+				</list>
+			</property>
+		</spring>
+
+    <rpc-xmlrpc key="udmf-xmlrpc" name="UDMF XML-RPC" class="com.steepdevelopment.confluence.udmf.UdmfXmlrpcPlugin">
+        <description>Xmlrpc API to access user date metadata</description>
+        <service-path>udmf</service-path>
+        <published-interface>com.steepdevelopment.confluence.udmf.UdmfInterface</published-interface>
+        <authenticate>true</authenticate>
+    </rpc-xmlrpc>
+
+    <rpc-soap key="udmf-soap" name="UDMF Soap" class="com.steepdevelopment.confluence.udmf.UdmfXmlrpcPlugin">
+        <description>Soap Service to access user date metdata</description>
+        <service-name>UdmfRpcPlugin</service-name>
+        <service-path>udmf</service-path>
+        <published-interface>com.steepdevelopment.confluence.udmf.UdmfInterface</published-interface>
+        <authenticate>true</authenticate>
+    </rpc-soap>
+
+</atlassian-plugin>

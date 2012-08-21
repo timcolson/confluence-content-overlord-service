@@ -1,0 +1,60 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+    <parent>
+        <groupId>com.atlassian.confluence.plugin.base</groupId>
+        <artifactId>confluence-plugin-base</artifactId>
+        <version>22</version>
+    </parent>
+
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>com.atlassian.confluence.plugins</groupId>
+    <artifactId>udmf-rpc</artifactId>
+    <packaging>jar</packaging>
+    <version>0.2-beta</version>
+    <name>User Date Metadata Framework RPC Plugin</name>
+
+    <scm>
+      	<connection>scm:svn:https://svn.atlassian.com/svn/public/contrib/confluence/confluence-helloworldrpc-plugin</connection>
+      	<developerConnection>scm:svn:https://svn.atlassian.com/svn/public/contrib/confluence/confluence-helloworldrpc-plugin</developerConnection>
+      	<url>https://svn.atlassian.com/svn/public/contrib/confluence/confluence-helloworldrpc-plugin</url>
+    </scm>
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.twdata.maven</groupId>
+				<artifactId>maven-cli-plugin</artifactId>
+				<configuration>
+					<commands>
+						<pi>clean resources compile jar com.atlassian.maven.plugins:atlassian-pdk:install</pi>
+						<pu>com.atlassian.maven.plugins:atlassian-pdk:uninstall</pu>
+				 	</commands>
+			 	</configuration>
+			</plugin>
+		</plugins>
+	</build>
+	
+	<dependencies>
+		<dependency>
+			<groupId>com.atlassian.confluence</groupId>
+			<artifactId>confluence</artifactId>
+			<version>2.10.1</version>
+			<scope>provided</scope>
+			<exclusions>
+				<exclusion>
+					<groupId>tangosol-coherence</groupId>
+					<artifactId>tangosol</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>tangosol-coherence</groupId>
+					<artifactId>coherence</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.4</version>
+		</dependency>
+	</dependencies>
+</project>
