@@ -1,44 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
-    <parent>
-        <groupId>com.atlassian.confluence.plugin.base</groupId>
-        <artifactId>confluence-plugin-base</artifactId>
-        <version>22</version>
-    </parent>
-
     <modelVersion>4.0.0</modelVersion>
-    <groupId>com.atlassian.confluence.plugins</groupId>
+    <groupId>com.steepdevelopment.confluence.udmf</groupId>
     <artifactId>udmf-rpc</artifactId>
-    <packaging>jar</packaging>
-    <version>0.2-beta</version>
-    <name>User Date Metadata Framework RPC Plugin</name>
+    <version>0.3-SNAPSHOT</version>
 
-    <scm>
-      	<connection>scm:svn:https://svn.atlassian.com/svn/public/contrib/confluence/confluence-helloworldrpc-plugin</connection>
-      	<developerConnection>scm:svn:https://svn.atlassian.com/svn/public/contrib/confluence/confluence-helloworldrpc-plugin</developerConnection>
-      	<url>https://svn.atlassian.com/svn/public/contrib/confluence/confluence-helloworldrpc-plugin</url>
-    </scm>
-	<build>
-		<plugins>
-			<plugin>
-				<groupId>org.twdata.maven</groupId>
-				<artifactId>maven-cli-plugin</artifactId>
-				<configuration>
-					<commands>
-						<pi>clean resources compile jar com.atlassian.maven.plugins:atlassian-pdk:install</pi>
-						<pu>com.atlassian.maven.plugins:atlassian-pdk:uninstall</pu>
-				 	</commands>
-			 	</configuration>
-			</plugin>
-		</plugins>
-	</build>
-	
-	<dependencies>
+	 <organization>
+		<name>AppFusions</name>
+		<url>http://www.appfusions.com</url>
+	 </organization>
+    
+	 <name>User Date Metadata Framework RPC Plugin</name>
+	 <description>Exposes RPC services for setting user and timestamp metadata for content entity objects</description>
+    <packaging>atlassian-plugin</packaging>
+
+	 <dependencies>
 		<dependency>
 			<groupId>com.atlassian.confluence</groupId>
 			<artifactId>confluence</artifactId>
-			<version>2.10.1</version>
+			<version>${confluence.version}</version>
 			<scope>provided</scope>
 			<exclusions>
 				<exclusion>
@@ -49,12 +31,137 @@
 					<groupId>tangosol-coherence</groupId>
 					<artifactId>coherence</artifactId>
 				</exclusion>
+			   <exclusion> <!-- required to address an conf 4.2 build bug -->
+			      <groupId>javax.resource</groupId>
+			      <artifactId>connector</artifactId>
+		      </exclusion>
 			</exclusions>
 		</dependency>
+	   <dependency>
+            <groupId>com.atlassian.sal</groupId>
+            <artifactId>sal-api</artifactId>
+            <version>${sal.version}</version>
+            <scope>provided</scope>
+        </dependency>
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 			<version>4.4</version>
 		</dependency>
 	</dependencies>
+
+	<build>
+		<sourceDirectory>src/main/java</sourceDirectory>
+
+	   <resources>
+			<resource>
+            <directory>src/main/resources</directory>
+            <filtering>true</filtering>
+            <includes>
+      	      <include>atlassian-plugin.xml</include>
+            </includes>
+         </resource>
+         <resource>
+            <directory>src/main/resources</directory>
+            <filtering>true</filtering>
+         </resource>
+		</resources>
+
+		<plugins>
+			<!-- DELETE?
+			<plugin>
+				<groupId>org.twdata.maven</groupId>
+				<artifactId>maven-cli-plugin</artifactId>
+				<configuration>
+					<commands>
+						<pi>clean resources compile jar com.atlassian.maven.plugins:atlassian-pdk:install</pi>
+						<pu>com.atlassian.maven.plugins:atlassian-pdk:uninstall</pu>
+				 	</commands>
+			 	</configuration>
+			</plugin>
+			-->
+			<plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-jar-plugin</artifactId>
+            <configuration>
+               <archive>
+                  <addMavenDescriptor>false</addMavenDescriptor>
+               </archive>
+            </configuration>
+         </plugin>
+			<plugin>
+            <groupId>com.atlassian.maven.plugins</groupId>
+            <artifactId>maven-confluence-plugin</artifactId>
+            <version>${amps.version}</version>
+            <extensions>true</extensions>
+            <configuration>
+               <productVersion>${confluence.version}</productVersion>
+               <productDataVersion>${confluence.data.version}</productDataVersion>
+					<fastdevEnable>false</fastdevEnable>
+            </configuration>
+         </plugin>
+			<plugin>
+            <artifactId>maven-compiler-plugin</artifactId>
+            <version>2.0.2</version>
+            <configuration>
+               <source>1.6</source>
+               <target>1.6</target>
+            </configuration>
+         </plugin>
+		</plugins>
+	</build>
+
+	<repositories>
+      <repository>
+         <id>appfusions-all-snapshots</id>
+         <url>http://nexus.appfusions.com/content/groups/appfusions-all-snapshot
+s/</url>
+         <snapshots>
+            <enabled>true</enabled>
+            <updatePolicy>daily</updatePolicy>
+         </snapshots>
+      </repository>
+      <repository>
+         <id>appfusions-all</id>
+         <url>http://nexus.appfusions.com/content/groups/appfusions-all/</url>
+      </repository>
+		<repository>
+         <id>spring-release</id>
+         <url>http://maven.springframework.org/release</url>
+      </repository>
+		<repository>
+         <id>atlassian-contrib</id>
+         <url>https://maven.atlassian.com/contrib/</url>
+         <snapshots>
+            <enabled>true</enabled>
+            <updatePolicy>daily</updatePolicy>
+         </snapshots>
+      </repository>
+	</repositories>
+
+	<properties>
+      <confluence.version>4.2.6</confluence.version>
+      <confluence.data.version>3.5</confluence.data.version>
+		<amps.version>3.10.2</amps.version>
+		<sal.version>2.0.11</sal.version>
+   </properties>
+
+    <scm>
+      	<connection>scm:git:https://stash.appfusions.com/scm/UWC/udmf.git</connection>
+      	<developerConnection>scm:git:https://stash.appfusions.com/scm/UWC/udmf.git</developerConnection>
+      	<url>https://stash.appfusions.com/projects/UWC/repos/udmf/browse</url>
+    </scm>
+    <distributionManagement>
+        <repository>
+            <id>releases</id>
+            <name>AppFusions Release Repo</name>
+            <url>http://nexus.appfusions.com/content/repositories/releases</url>
+        </repository>
+        <snapshotRepository>
+            <id>snapshots</id>
+            <name>AppFusions Snapshots Repo</name>
+            <url>http://nexus.appfusions.com/content/repositories/snapshots</url>
+        </snapshotRepository>
+    </distributionManagement>
+		
 </project>
