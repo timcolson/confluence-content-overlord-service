@@ -11,31 +11,24 @@ import com.atlassian.confluence.core.ContentEntityManager;
 import com.atlassian.confluence.core.ContentEntityObject;
 import com.atlassian.confluence.core.DefaultSaveContext;
 import com.atlassian.confluence.core.SaveContext;
-import com.atlassian.confluence.pages.Comment;
-import com.atlassian.confluence.pages.CommentManager;
-import com.atlassian.confluence.pages.PageManager;
 import com.atlassian.confluence.rpc.RemoteException;
 import com.atlassian.confluence.user.UserAccessor;
-import com.atlassian.user.User;
-
 import com.atlassian.sal.api.transaction.TransactionCallback;
 import com.atlassian.sal.api.transaction.TransactionTemplate;
+import com.atlassian.user.User;
 
 public class UdmfDelegator implements UdmfInterface {
 
 	Logger log = Logger.getLogger(this.getClass());
-//	private final CommentManager commentManager;
 	private final ContentEntityManager contentEntityManager;
 	private final UserAccessor userAccessor;
 	private final TransactionTemplate transactionTemplate;
 
 	public static final String DATE_FORMAT = "yyyy:MM:dd:HH:mm:ss:SS"; //XXX settable?
 
-	public UdmfDelegator (//CommentManager commentManager,
-			ContentEntityManager contentEntityManager,
+	public UdmfDelegator (ContentEntityManager contentEntityManager,
 			UserAccessor userAccessor,
 			TransactionTemplate transactionTemplate) {
-//		this.commentManager = commentManager;
 		this.contentEntityManager = contentEntityManager;
 		this.userAccessor = userAccessor;
 		this.transactionTemplate = transactionTemplate;
@@ -229,78 +222,7 @@ public class UdmfDelegator implements UdmfInterface {
 	private String formatDate(Date date) {
 		DateFormat dateFormat = new SimpleDateFormat(DATE_FORMAT); //XXX settable?
 		return (dateFormat.format(date));
-	}
-
-//	public String setCreatorForComment(String token, final String username, final String id) throws RemoteException {
-//		try {
-//			return (String) transactionTemplate.execute(new TransactionCallback()
-//			{
-//				public Object doInTransaction()
-//				{
-//					if (commentManager == null) {
-//						String msg = "Cannot set creator. CommentManager is null.";
-//						log.error(msg);
-//						throw new IllegalArgumentException(msg);
-//					}
-//
-//					Comment comment = commentManager.getComment(Long.parseLong(id));
-//					if(comment != null) {
-//						comment.setCreatorName(username);
-//						return comment.getCreatorName();
-//					} else {
-//						String msg = "Cannot set creator. No comment exists for id: " + id;
-//						log.error(msg);
-//						throw new IllegalArgumentException(msg);
-//					}
-//				}
-//			});
-//		} catch (IllegalArgumentException e) { 
-//			//We can't directly throw the RemoteException from within the transaction template, so we 
-//			//hack it with a RuntimeException (IllegalArgumentException seemed good enough).
-//			throw new RemoteException(e.getMessage());
-//		}
-//	}
-//
-//	public String setCreateDateForComment(String token, final String date, final String id) throws RemoteException {
-//		try {
-//			return (String) transactionTemplate.execute(new TransactionCallback()
-//			{
-//				public Object doInTransaction()
-//				{
-//					log.debug("set Create Date For Comment method: passed date = " + date + " id = " + id);
-//					if (commentManager == null) {
-//						String msg = "Cannot set created date. CommentManager is null.";
-//						log.error(msg);
-//						throw new IllegalArgumentException(msg);
-//					}
-//
-//					Comment comment = commentManager.getComment(Long.parseLong(id));
-//
-//					if (comment == null) {
-//						String msg = "Cannot set created date. No comment exists for id: " + id;
-//						log.error(msg);
-//						throw new IllegalArgumentException(msg);
-//					}
-//					Date formattedDate;
-//					try {
-//						formattedDate = createDate(date);
-//					} catch (ParseException e1) {
-//						String msg = "Date was not in expected format. Date: " + date + " Format: " + DATE_FORMAT;
-//						log.error(msg);
-//						throw new IllegalArgumentException(msg);
-//					}
-//
-//					comment.setCreationDate(formattedDate);
-//					return formatDate(comment.getCreationDate());
-//				}
-//			});
-//		} catch (IllegalArgumentException e) { 
-//			//We can't directly throw the RemoteException from within the transaction template, so we 
-//			//hack it with a RuntimeException (IllegalArgumentException seemed good enough).
-//			throw new RemoteException(e.getMessage());
-//		}
-//	}
-	
+	}	
 
 	public DefaultSaveContext newSaveContext() {
 		//not a minor edit, don't update last mod, do suppress events

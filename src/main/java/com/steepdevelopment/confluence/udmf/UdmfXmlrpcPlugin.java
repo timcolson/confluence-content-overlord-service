@@ -59,13 +59,5 @@ public class UdmfXmlrpcPlugin implements UdmfInterface {
 		log.debug("setting delegator");
 		this.delegator = udmfDelegator;
 	}
-//
-//	public String setCreatorForComment(String token, String username, String id) throws RemoteException {
-//		return this.delegator.setCreatorForComment(token, username, id);
-//	}
-//
-//	public String setCreateDateForComment(String token, String date, String id) throws RemoteException {
-//		return this.delegator.setCreateDateForComment(token, date, id);
-//	}
 
 }
