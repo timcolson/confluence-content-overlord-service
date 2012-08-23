@@ -24,7 +24,6 @@ import com.atlassian.sal.api.transaction.TransactionTemplate;
 public class UdmfDelegator implements UdmfInterface {
 
 	Logger log = Logger.getLogger(this.getClass());
-//	private final PageManager pageManager; //DELETE?
 //	private final CommentManager commentManager;
 	private final ContentEntityManager contentEntityManager;
 	private final UserAccessor userAccessor;
@@ -32,12 +31,10 @@ public class UdmfDelegator implements UdmfInterface {
 
 	public static final String DATE_FORMAT = "yyyy:MM:dd:HH:mm:ss:SS"; //XXX settable?
 
-	public UdmfDelegator (//PageManager pageManager,
-//			CommentManager commentManager,
+	public UdmfDelegator (//CommentManager commentManager,
 			ContentEntityManager contentEntityManager,
 			UserAccessor userAccessor,
 			TransactionTemplate transactionTemplate) {
-//		this.pageManager = pageManager;
 //		this.commentManager = commentManager;
 		this.contentEntityManager = contentEntityManager;
 		this.userAccessor = userAccessor;
@@ -65,14 +62,12 @@ public class UdmfDelegator implements UdmfInterface {
 				{
 					log.debug("set Create Date method: passed date = " + date + " id = " + id);
 					if (contentEntityManager == null) {
-//					if (pageManager == null) {
 						String msg = "Cannot set created date. ContentEntityManager is null.";
 						log.error(msg);
 						throw new IllegalArgumentException(msg);
 					}
 
 					ContentEntityObject ceo = contentEntityManager.getById(Long.parseLong(id));
-//					ContentEntityObject ceo = pageManager.getById(Long.parseLong(id));
 					if (ceo == null) {
 						String msg = "Cannot set last modifier. No content entity exists for id: " + id;
 						log.error(msg);
@@ -87,7 +82,6 @@ public class UdmfDelegator implements UdmfInterface {
 						throw new IllegalArgumentException(msg);
 					}
 					SaveContext context = newSaveContext();
-//					pageManager.saveContentEntity(ceo, context);
 					contentEntityManager.saveContentEntity(ceo, context);
 					ceo.setCreationDate(formattedDate);
 					return formatDate(ceo.getCreationDate());
@@ -115,14 +109,12 @@ public class UdmfDelegator implements UdmfInterface {
 				{
 					log.debug("set Creator method: passed username = " + username + " id = " + id);
 					if (contentEntityManager == null) {
-//					if (pageManager == null) {
 						String msg = "Cannot set creator. ContentEntityManager is null.";
 						log.error(msg);
 						throw new IllegalArgumentException(msg);
 					}
 
 					ContentEntityObject ceo = contentEntityManager.getById(Long.parseLong(id));
-//					ContentEntityObject ceo = pageManager.getById(Long.parseLong(id));
 					if (ceo == null) {
 						String msg = "Cannot set last modifier. No content entity exists for id: " + id;
 						log.error(msg);
@@ -134,7 +126,6 @@ public class UdmfDelegator implements UdmfInterface {
 					}
 					SaveContext context = newSaveContext();
 					context.setUpdateLastModifier(true);
-//					pageManager.saveContentEntity(ceo, context);
 					contentEntityManager.saveContentEntity(ceo, context);
 					ceo.setCreatorName(username);
 					return ceo.getCreatorName();
@@ -155,14 +146,12 @@ public class UdmfDelegator implements UdmfInterface {
 				{
 					log.debug("set Last Modified Date method: passed date = " + date + " id = " + id);
 					if (contentEntityManager == null) {
-//					if (pageManager == null) {
 						String msg = "Cannot set last modified date. ContentEntityManager is null.";
 						log.error(msg);
 						throw new IllegalArgumentException(msg);
 					}
 
 					ContentEntityObject ceo = contentEntityManager.getById(Long.parseLong(id));
-//					ContentEntityObject ceo = pageManager.getById(Long.parseLong(id));
 					if (ceo == null) {
 						String msg = "Cannot set last modifier. No content entity exists for id: " + id;
 						log.error(msg);
@@ -177,7 +166,6 @@ public class UdmfDelegator implements UdmfInterface {
 						throw new IllegalArgumentException(msg);
 					}
 					SaveContext context = newSaveContext();
-//					pageManager.saveContentEntity(ceo, context); //DELETE?
 					contentEntityManager.saveContentEntity(ceo, context);
 					ceo.setLastModificationDate(formattedDate);
 					return formatDate(ceo.getLastModificationDate());
@@ -203,14 +191,12 @@ public class UdmfDelegator implements UdmfInterface {
 				{
 					log.debug("set Last Modifier method: passed username = " + username + " id = " + id);
 					if (contentEntityManager == null) {
-//					if (pageManager == null) {
 						String msg = "Cannot set last modifier. ContentEntityManager is null.";
 						log.error(msg);
 						throw new IllegalArgumentException(msg);
 					}
 
 					ContentEntityObject ceo = contentEntityManager.getById(Long.parseLong(id));
-//					ContentEntityObject ceo = pageManager.getById(Long.parseLong(id));
 					if (ceo == null) {
 						String msg = "Cannot set last modifier. No content entity exists for id: " + id;
 						log.error(msg);
@@ -223,7 +209,6 @@ public class UdmfDelegator implements UdmfInterface {
 					SaveContext context = newSaveContext();
 					context.setUpdateLastModifier(true);
 					contentEntityManager.saveContentEntity(ceo, context);
-//					pageManager.saveContentEntity(ceo, context);
 					ceo.setLastModifierName(username);
 					return ceo.getLastModifierName();
 				}
