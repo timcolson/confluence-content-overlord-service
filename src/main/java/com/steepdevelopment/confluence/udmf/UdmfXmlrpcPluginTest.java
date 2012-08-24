@@ -20,6 +20,8 @@ import org.apache.xmlrpc.XmlRpcException;
 
 public class UdmfXmlrpcPluginTest extends TestCase {
 
+	private static final boolean USERS_MUST_EXIST = false;
+	private static final String API = "confluence2";
 	Logger log = Logger.getLogger(this.getClass());
 	private Properties props;
 	private String login;
@@ -40,7 +42,7 @@ public class UdmfXmlrpcPluginTest extends TestCase {
 		try {
 			String date = "2009:02:16:13:29:28:27";
 			
-			XmlRpcClient client = new XmlRpcClient("http://localhost:8585/confluence/rpc/xmlrpc");
+			XmlRpcClient client = new XmlRpcClient("http://localhost:1990/confluence/rpc/xmlrpc");
 			
 			Vector loginParams = new Vector(2);
 			loginParams.add("admin");
@@ -99,7 +101,7 @@ public class UdmfXmlrpcPluginTest extends TestCase {
     		assertEquals(date, actual);
     		
     		//get the page and double check info
-    		api = "confluence1";
+    		api = API;
     		method = "getPage";
     		paramsVector.remove(1); //get rid of the author parameter
     		Hashtable page = (Hashtable) client.execute(api + "." + method, paramsVector);
@@ -127,13 +129,15 @@ public class UdmfXmlrpcPluginTest extends TestCase {
     		
 			paramsVector.add(author);
     		paramsVector.add(id);
+    		paramsVector.add(USERS_MUST_EXIST); 
     		String actual = (String) client.execute(api  + "." + method, paramsVector);
     		assertNotNull(actual);
     		assertEquals(author, actual);
     		
     		//get the page and double check info
-    		api = "confluence1";
+    		api = API;
     		method = "getPage";
+    		paramsVector.remove(3); //get rid of the users_must_exist parameter
     		paramsVector.remove(1); //get rid of the author parameter
     		Hashtable page = (Hashtable) client.execute(api + "." + method, paramsVector);
     		assertNotNull(page);
@@ -163,7 +167,7 @@ public class UdmfXmlrpcPluginTest extends TestCase {
     		assertEquals(date, actual);
     		
     		//get the page and double check info
-    		api = "confluence1";
+    		api = API;
     		method = "getPage";
     		paramsVector.remove(1); //get rid of the author parameter
     		Hashtable page = (Hashtable) client.execute(api + "." + method, paramsVector);
@@ -191,13 +195,15 @@ public class UdmfXmlrpcPluginTest extends TestCase {
     		
 			paramsVector.add(author);
     		paramsVector.add(id);
+    		paramsVector.add(USERS_MUST_EXIST);
     		String actual = (String) client.execute(api  + "." + method, paramsVector);
     		assertNotNull(actual);
     		assertEquals(author, actual);
     		
     		//get the page and double check info
-    		api = "confluence1";
+    		api = API;
     		method = "getPage";
+    		paramsVector.remove(3); //get rid of the users_must_exist parameter
     		paramsVector.remove(1); //get rid of the author parameter
     		Hashtable page = (Hashtable) client.execute(api + "." + method, paramsVector);
     		assertNotNull(page);
