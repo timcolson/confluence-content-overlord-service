@@ -1,0 +1,12 @@
+Release Process
+(based on https://wiki.appfusions.com/display/AF057/Release+Process )
+* atlas-release
+* review http://nexus.appfusions.com/content/repositories/releases/com/steepdevelopment/confluence/udmf/udmf-rpc/
+
+
+
+1.1 
+- supports Confluence 4+
+- resolves exception issues that started at least from 3.5. (haven't tested against 3.5, but should work)
+- now plugin 2: installs via UPM!
+- supports all ContentEntityObjects: page, blogpost, comment, etc.
