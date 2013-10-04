@@ -111,19 +111,6 @@
 	</build>
 
 	<repositories>
-      <repository>
-         <id>appfusions-all-snapshots</id>
-         <url>http://nexus.appfusions.com/content/groups/appfusions-all-snapshot
-s/</url>
-         <snapshots>
-            <enabled>true</enabled>
-            <updatePolicy>daily</updatePolicy>
-         </snapshots>
-      </repository>
-      <repository>
-         <id>appfusions-all</id>
-         <url>http://nexus.appfusions.com/content/groups/appfusions-all/</url>
-      </repository>
 		<repository>
          <id>spring-release</id>
          <url>http://maven.springframework.org/release</url>
@@ -145,22 +132,4 @@ s/</url>
 		<sal.version>2.0.11</sal.version>
    </properties>
 
-    <scm>
-      	<connection>scm:git:https://stash.appfusions.com/scm/UWC/udmf.git</connection>
-      	<developerConnection>scm:git:https://stash.appfusions.com/scm/UWC/udmf.git</developerConnection>
-      	<url>https://stash.appfusions.com/projects/UWC/repos/udmf/browse</url>
-    </scm>
-    <distributionManagement>
-        <repository>
-            <id>releases</id>
-            <name>AppFusions Release Repo</name>
-            <url>http://nexus.appfusions.com/content/repositories/releases</url>
-        </repository>
-        <snapshotRepository>
-            <id>snapshots</id>
-            <name>AppFusions Snapshots Repo</name>
-            <url>http://nexus.appfusions.com/content/repositories/snapshots</url>
-        </snapshotRepository>
-    </distributionManagement>
-		
 </project>
