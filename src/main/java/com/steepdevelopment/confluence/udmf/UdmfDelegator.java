@@ -227,6 +227,7 @@ public class UdmfDelegator implements UdmfInterface {
 	public DefaultSaveContext newSaveContext() {
 		//not a minor edit, don't update last mod, do suppress events
 		//these settings help us avoid exceptions
-		return new DefaultSaveContext(false,false,true); 
+		return new DefaultSaveContext(false,false,true);  //introduced 4.0
+		//return new DefaultSaveContext();  //3.5.3 compat - will build against
 	}
 }
